@@ -1,12 +1,12 @@
 package com.exchange.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.entity.SysUser;
 import com.exchange.mapper.SysUserMapper;
 import com.exchange.service.SysUserService;
 import com.exchange.utils.JwtUtil;
+import com.exchange.vo.AuthTokenVO;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -40,7 +40,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public String getAccessToken(UserLoginDTO userLoginDTO) {
+    public AuthTokenVO getAccessToken(UserLoginDTO userLoginDTO) {
         // 传入用户名和密码
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword());
@@ -50,7 +50,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             authenticate = authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
             log.error("用户名或密码错误：{}", e.fillInStackTrace());
-            return "用户名或密码错误！！！";
+            // TODO 后续解决这边的异常类
+//            throw  "用户名或密码错误！！！";
         }
         SysUser user = (SysUser) authenticate.getPrincipal();
         log.info("登陆后的用户=》》》{}", user);
@@ -58,6 +59,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         log.info("accessToken：{}", generateToken.get("accessToken"));
         log.info("refreshToken：{}", generateToken.get("refreshToken"));
         // TODO 目前先返回一个accessToken
-        return generateToken.get("accessToken").toString();
+        AuthTokenVO authTokenVO = new AuthTokenVO();
+        authTokenVO.setAccessToken(generateToken.get("accessToken").toString());
+        authTokenVO.setRefreshToken(generateToken.get("refreshToken").toString());
+
+        return authTokenVO;
     }
 }

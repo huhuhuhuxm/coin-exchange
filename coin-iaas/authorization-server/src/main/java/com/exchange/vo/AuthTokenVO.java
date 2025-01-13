@@ -11,4 +11,5 @@ import lombok.Data;
 @Data
 public class AuthTokenVO {
     private String accessToken;
+    private String refreshToken;
 }

@@ -26,6 +26,7 @@ import java.util.Map;
 public class JwtUtil {
 
     JwtEncoder jwtEncoder;
+    JwtDecoder jwtDecoder;
 
     /**
      * 用于生成accessToken和refreshToken
@@ -44,7 +45,7 @@ public class JwtUtil {
         claims.put("permissions", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
 
         // 生成 Access Token
-        JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder()
+        JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder() // TODO 后续把这些值写成动态配置
                 .issuer("self") // Token 签发方
                 .issuedAt(now) // 签发时间
                 .expiresAt(now.plus(1, ChronoUnit.HOURS)) // 过期时间
@@ -57,7 +58,7 @@ public class JwtUtil {
         JwtClaimsSet refreshTokenClaims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(7, ChronoUnit.DAYS))
+                .expiresAt(now.plus(7, ChronoUnit.DAYS)) // TODO 后续把这些过期时间写成动态配置
                 .subject(user.getUsername())
                 .build();
         String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshTokenClaims)).getTokenValue();
@@ -69,4 +70,66 @@ public class JwtUtil {
 
         return tokens;
     }
+
+    /**
+     * 解析 Token
+     * @param token
+     * @return
+     */
+    public Jwt decodeToken(String token) {
+        try {
+            return jwtDecoder.decode(token);
+        } catch (JwtException e) {
+            throw new IllegalArgumentException("token解析失败！！！", e);
+        }
+    }
+
+    /**
+     * 判断 Token 是否过期
+     * @param token
+     * @return
+     */
+    public boolean isTokenExpired(String token) {
+        try {
+            Jwt jwt = decodeToken(token);
+            Instant expiresAt = jwt.getExpiresAt();
+            return expiresAt != null && expiresAt.isBefore(Instant.now());
+        } catch (JwtException e) {
+            throw new IllegalArgumentException("token已过期！！！", e);
+        }
+    }
+
+    /**
+     * 从 Token 中获取用户名
+     *
+     * @param token JWT Token
+     * @return 用户名
+     */
+    public String getUsernameFromToken(String token) {
+        Jwt jwt = decodeToken(token);
+        return jwt.getSubject();
+    }
+
+    /**
+     * 从 Token 中获取角色列表
+     *
+     * @param token JWT Token
+     * @return 角色列表
+     */
+    public Object getRolesFromToken(String token) {
+        Jwt jwt = decodeToken(token);
+        return jwt.getClaim("roles");
+    }
+
+    /**
+     * 从 Token 中获取权限列表
+     *
+     * @param token JWT Token
+     * @return 权限列表
+     */
+    public Object getPermissionsFromToken(String token) {
+        Jwt jwt = decodeToken(token);
+        return jwt.getClaim("permissions");
+    }
+
 }

@@ -31,9 +31,9 @@ public class AuthorizationController {
      */
     @PostMapping("/login")
     public AuthTokenVO login(@RequestBody UserLoginDTO userLoginDTO) {
-        String accessToken =  sysUserService.getAccessToken(userLoginDTO);
-        AuthTokenVO authTokenVO = new AuthTokenVO();
-        authTokenVO.setAccessToken(accessToken);
+        AuthTokenVO authTokenVO =  sysUserService.getAccessToken(userLoginDTO);
+//        AuthTokenVO authTokenVO = new AuthTokenVO();
+//        authTokenVO.setAccessToken(accessToken);
         // TODO 后续换成通用结果类
         return authTokenVO;
     }

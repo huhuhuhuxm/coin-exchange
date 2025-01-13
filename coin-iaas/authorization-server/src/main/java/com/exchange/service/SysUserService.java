@@ -3,6 +3,7 @@ package com.exchange.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.entity.SysUser;
+import com.exchange.vo.AuthTokenVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,5 +18,5 @@ public interface SysUserService extends IService<SysUser> {
      * @param userLoginDTO
      * @return
      */
-    String getAccessToken(UserLoginDTO userLoginDTO);
+    AuthTokenVO getAccessToken(UserLoginDTO userLoginDTO);
 }

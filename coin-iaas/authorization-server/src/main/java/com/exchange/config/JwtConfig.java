@@ -7,7 +7,9 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
 import java.security.KeyPair;
@@ -25,6 +27,10 @@ import java.util.UUID;
 @Configuration
 public class JwtConfig {
 
+    /**
+     * Token生成
+     * @return
+     */
     @Bean
     public JwtEncoder jwtEncoder() {
         // 生成 RSA 密钥对
@@ -42,6 +48,27 @@ public class JwtConfig {
 
         // 返回 JwtEncoder
         return new NimbusJwtEncoder(jwkSource);
+    }
+
+    /**
+     * Token解码
+     * @return
+     */
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        // 生成 RSA 密钥对
+        KeyPair keyPair = generateRsaKey();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+
+        // 配置 RSA 公钥到 JWKSource
+        RSAKey rsaKey = new RSAKey.Builder(publicKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(jwkSet);
+
+        // 返回 JwtDecoder
+        return NimbusJwtDecoder.withPublicKey(publicKey).build();
     }
 
     private KeyPair generateRsaKey() {
