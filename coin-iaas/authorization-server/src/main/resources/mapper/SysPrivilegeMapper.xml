@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.exchange.mapper.SysPrivilegeMapper">
+
+    <select id="selectPrivilegeByRoleId" resultType="java.lang.String">
+        select sp.name from sys_role_privilege as srp
+            left join sys_privilege as sp
+            on srp.privilege_id = sp.id
+        where srp.role_id in
+        <foreach collection="roleIds" item="roleId" open="("  separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+</mapper>

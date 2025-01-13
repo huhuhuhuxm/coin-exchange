@@ -1,0 +1,26 @@
+server:
+  port: 18081
+spring:
+  application:
+    name: authorization-server
+#  config:
+#    import: optional:nacos:instead
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  datasource: # 数据库配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/coin-exchange
+    username: root
+    password: 2019dahucun
+
+logging: # 日志配置
+  level:
+    org.springframework.security: trace
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.exchange.entity
