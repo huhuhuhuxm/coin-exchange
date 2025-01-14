@@ -1,6 +1,8 @@
 package com.exchange.utils;
 
+import com.exchange.constant.JwtConstant;
 import com.exchange.entity.SysUser;
+import com.exchange.properties.JwtProperties;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +29,7 @@ public class JwtUtil {
 
     JwtEncoder jwtEncoder;
     JwtDecoder jwtDecoder;
+    JwtProperties jwtProperties;
 
     /**
      * 用于生成accessToken和refreshToken
@@ -40,15 +43,15 @@ public class JwtUtil {
         // 自定义 Claims
         Map<String, Object> claims = new HashMap<>();
 //        claims.put("userId", user.getId());
-        claims.put("username", user.getUsername());
-        claims.put("roles", user.getRoleSet().stream().map(role -> role.getName()).toList());
-        claims.put("permissions", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+        claims.put(JwtConstant.JWt_USERNAME, user.getUsername());
+        claims.put(JwtConstant.JWT_ROLE, user.getRoleSet().stream().map(role -> role.getName()).toList());
+        claims.put(JwtConstant.JWT_PERMISSION, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
 
         // 生成 Access Token
         JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder() // TODO 后续把这些值写成动态配置
                 .issuer("self") // Token 签发方
                 .issuedAt(now) // 签发时间
-                .expiresAt(now.plus(1, ChronoUnit.HOURS)) // 过期时间
+                .expiresAt(now.plus(jwtProperties.getAccessTokenValiditySeconds(), ChronoUnit.SECONDS)) // 过期时间
                 .subject(user.getUsername()) // 主题（用户标识）
                 .claims(claimsMap -> claimsMap.putAll(claims)) // 自定义数据
                 .build();
@@ -58,7 +61,7 @@ public class JwtUtil {
         JwtClaimsSet refreshTokenClaims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(7, ChronoUnit.DAYS)) // TODO 后续把这些过期时间写成动态配置
+                .expiresAt(now.plus(jwtProperties.getRefreshTokenValiditySeconds(), ChronoUnit.SECONDS)) // TODO 后续把这些过期时间写成动态配置
                 .subject(user.getUsername())
                 .build();
         String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshTokenClaims)).getTokenValue();
@@ -118,7 +121,7 @@ public class JwtUtil {
      */
     public Object getRolesFromToken(String token) {
         Jwt jwt = decodeToken(token);
-        return jwt.getClaim("roles");
+        return jwt.getClaim(JwtConstant.JWT_ROLE);
     }
 
     /**
@@ -129,7 +132,7 @@ public class JwtUtil {
      */
     public Object getPermissionsFromToken(String token) {
         Jwt jwt = decodeToken(token);
-        return jwt.getClaim("permissions");
+        return jwt.getClaim(JwtConstant.JWT_PERMISSION);
     }
 
 }

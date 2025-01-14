@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -32,8 +34,8 @@ public class AuthorizationController {
     @PostMapping("/login")
     public AuthTokenVO login(@RequestBody UserLoginDTO userLoginDTO) {
         AuthTokenVO authTokenVO =  sysUserService.getAccessToken(userLoginDTO);
-//        AuthTokenVO authTokenVO = new AuthTokenVO();
-//        authTokenVO.setAccessToken(accessToken);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("authentication：{}", authentication);
         // TODO 后续换成通用结果类
         return authTokenVO;
     }

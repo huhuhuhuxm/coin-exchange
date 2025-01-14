@@ -1,7 +1,10 @@
 package com.exchange;
 
+import com.exchange.properties.JwtProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * @author huxuanming
@@ -9,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2025/1/3 20:40
  */
 @SpringBootApplication
+@EnableConfigurationProperties({JwtProperties.class})
 public class AuthorizationApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthorizationApplication.class, args);
