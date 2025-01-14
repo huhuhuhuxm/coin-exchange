@@ -48,7 +48,7 @@ public class JwtUtil {
         claims.put(JwtConstant.JWT_PERMISSION, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
 
         // 生成 Access Token
-        JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder() // TODO 后续把这些值写成动态配置
+        JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder()
                 .issuer("self") // Token 签发方
                 .issuedAt(now) // 签发时间
                 .expiresAt(now.plus(jwtProperties.getAccessTokenValiditySeconds(), ChronoUnit.SECONDS)) // 过期时间
@@ -61,7 +61,7 @@ public class JwtUtil {
         JwtClaimsSet refreshTokenClaims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(jwtProperties.getRefreshTokenValiditySeconds(), ChronoUnit.SECONDS)) // TODO 后续把这些过期时间写成动态配置
+                .expiresAt(now.plus(jwtProperties.getRefreshTokenValiditySeconds(), ChronoUnit.SECONDS))
                 .subject(user.getUsername())
                 .build();
         String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshTokenClaims)).getTokenValue();

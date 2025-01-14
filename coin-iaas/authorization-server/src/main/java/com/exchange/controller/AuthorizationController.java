@@ -40,4 +40,6 @@ public class AuthorizationController {
         return authTokenVO;
     }
 
+    // TODO 在重新获取token的时候把上一个请求的token存入redis黑名单
+
 }

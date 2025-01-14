@@ -14,6 +14,11 @@ spring:
     url: jdbc:mysql://localhost:3306/coin-exchange
     username: root
     password: 2019dahucun
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 2019dahucun
 
 logging: # 日志配置
   level:
