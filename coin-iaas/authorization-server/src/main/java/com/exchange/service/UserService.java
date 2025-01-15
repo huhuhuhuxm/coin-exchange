@@ -2,16 +2,15 @@ package com.exchange.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.exchange.dto.UserLoginDTO;
-import com.exchange.entity.SysUser;
+import com.exchange.entity.User;
 import com.exchange.vo.AuthTokenVO;
-import org.springframework.stereotype.Service;
 
 /**
  * @author huxuanming
  * @version 1.0
- * @date 2025/1/12 15:36
+ * @date 2025/1/15 20:40
  */
-public interface SysUserService extends IService<SysUser> {
+public interface UserService extends IService<User> {
 
     /**
      * 登录并获取token

@@ -1,7 +1,9 @@
 package com.exchange.controller;
 
+import com.exchange.constant.LoginConstant;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.service.SysUserService;
+import com.exchange.service.UserService;
 import com.exchange.vo.AuthTokenVO;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +27,22 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorizationController {
 
     SysUserService sysUserService;
+    UserService userService;
 
     /**
      * 用户登录
      * @param userLoginDTO
+     * @param LoginType
      * @return
      */
     @PostMapping("/login")
-    public AuthTokenVO login(@RequestBody UserLoginDTO userLoginDTO) {
-        AuthTokenVO authTokenVO =  sysUserService.getAccessToken(userLoginDTO);
+    public AuthTokenVO login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType) {
+        AuthTokenVO authTokenVO = null;
+        if (LoginConstant.ADMIN_TYPE.equals(LoginType)) {
+            authTokenVO =  sysUserService.getAccessToken(userLoginDTO);
+        } else if (LoginConstant.MEMBER_TYPE.equals(LoginType)) {
+            authTokenVO = userService.getAccessToken(userLoginDTO);
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("authentication：{}", authentication);
         // TODO 后续换成通用结果类

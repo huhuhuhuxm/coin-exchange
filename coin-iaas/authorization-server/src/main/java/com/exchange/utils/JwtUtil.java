@@ -1,13 +1,11 @@
 package com.exchange.utils;
 
 import com.exchange.constant.JwtConstant;
-import com.exchange.entity.SysUser;
 import com.exchange.properties.JwtProperties;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Component;
 
@@ -33,28 +31,30 @@ public class JwtUtil {
 
     /**
      * 用于生成accessToken和refreshToken
-     * @param user
+     * @param username
+     * @param claims
      * @return
      */
-    public Map<String, Object> generateToken(SysUser user) {
+    public Map<String, Object> generateToken(String username, Map<String, Object> claims) {
 
         Instant now = Instant.now();
 
         // 自定义 Claims
-        Map<String, Object> claims = new HashMap<>();
+//        Map<String, Object> claims = new HashMap<>();
 //        claims.put("userId", user.getId());
-        claims.put(JwtConstant.JWt_USERNAME, user.getUsername());
-        claims.put(JwtConstant.JWT_ROLE, user.getRoleSet().stream().map(role -> role.getName()).toList());
-        claims.put(JwtConstant.JWT_PERMISSION, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+//        claims.put(JwtConstant.JWt_USERNAME, user.getUsername());
+//        claims.put(JwtConstant.JWT_ROLE, user.getRoleSet().stream().map(role -> role.getName()).toList());
+//        claims.put(JwtConstant.JWT_PERMISSION, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
 
         // 生成 Access Token
         JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder()
-                .issuer("self") // Token 签发方
+                .issuer("coin-exchange") // Token 签发方
                 .issuedAt(now) // 签发时间
                 .expiresAt(now.plus(jwtProperties.getAccessTokenValiditySeconds(), ChronoUnit.SECONDS)) // 过期时间
-                .subject(user.getUsername()) // 主题（用户标识）
+                .subject(username) // 主题（用户标识）
                 .claims(claimsMap -> claimsMap.putAll(claims)) // 自定义数据
                 .build();
+
         String accessToken = jwtEncoder.encode(JwtEncoderParameters.from(accessTokenClaims)).getTokenValue();
 
         // 生成 Refresh Token
@@ -62,7 +62,7 @@ public class JwtUtil {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(jwtProperties.getRefreshTokenValiditySeconds(), ChronoUnit.SECONDS))
-                .subject(user.getUsername())
+                .subject(username)
                 .build();
         String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshTokenClaims)).getTokenValue();
 
