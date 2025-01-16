@@ -3,11 +3,13 @@ server:
 spring:
   application:
     name: authorization-server
-#  config:
-#    import: optional:nacos:instead
+  config:
+    import: optional:nacos:instead
   cloud:
     nacos:
       discovery:
+        server-addr: localhost:8848
+      config:
         server-addr: localhost:8848
   datasource: # 数据库配置
     driver-class-name: com.mysql.cj.jdbc.Driver

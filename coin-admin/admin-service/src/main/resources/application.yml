@@ -1,0 +1,23 @@
+server:
+  port: 18082
+spring:
+  application:
+    name: admin-server
+  config:
+    import: optional:nacos:instead
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848
+  datasource: # 数据库配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/coin-exchange
+    username: root
+    password: 2019dahucun
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 2019dahucun
