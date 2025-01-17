@@ -1,4 +1,4 @@
-package com.exchange.jackson;
+package com.exchange.config.jackson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

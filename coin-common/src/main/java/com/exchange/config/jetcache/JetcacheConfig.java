@@ -1,4 +1,4 @@
-package com.exchange.jetcache;
+package com.exchange.config.jetcache;
 
 import com.alicp.jetcache.anno.Cached;
 import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;

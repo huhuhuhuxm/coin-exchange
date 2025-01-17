@@ -35,3 +35,23 @@ mybatis-plus:
 jwt:
   access-token-validity-seconds: 10800 # accessToken有效期  3 * 60 * 60
   refresh-token-validity-seconds: 86400 # refreshToken有效期 24 * 60 * 60
+
+# dubbo配置
+#dubbo:
+#  application:
+#    name: dubbo-coin-authorization # 应用名称
+#    qos-enable: false
+#  provider:
+#    token: true
+#  protocol:
+#    name: dubbo
+#    port: -1 # Dubbo 服务端口 默认端口号是 20880  -1：则是自动分配
+#  registry:
+#    address: nacos://127.0.0.1:8848 # Dubbo 服务注册中心地址
+#    group: DUBBO_GROUP
+#  config-center:
+#    address: nacos://127.0.0.1:8848 # Dubbo 配置中心地址
+#    group: DUBBO_GROUP
+#  metadata-report:
+#    address: nacos://127.0.0.1:8848 # Dubbo 元数据中心地址
+#    group: DUBBO_GROUP

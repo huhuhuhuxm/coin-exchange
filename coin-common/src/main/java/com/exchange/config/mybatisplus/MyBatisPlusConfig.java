@@ -1,4 +1,4 @@
-package com.exchange.mybatisplus;
+package com.exchange.config.mybatisplus;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;

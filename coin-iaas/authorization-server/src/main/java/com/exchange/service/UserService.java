@@ -18,4 +18,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     AuthTokenVO getAccessToken(UserLoginDTO userLoginDTO);
+
+    /**
+     * 角色校验
+     * @param role
+     * @param token
+     * @return
+     */
+    boolean roleCheck(String role, String token);
 }

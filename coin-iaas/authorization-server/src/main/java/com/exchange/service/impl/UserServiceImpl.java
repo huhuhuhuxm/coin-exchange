@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -69,5 +70,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         authTokenVO.setRefreshToken(generateToken.get("refreshToken").toString());
 
         return authTokenVO;
+    }
+
+
+    /**
+     * 角色校验
+     * @param role
+     * @param token
+     * @return
+     */
+    @Override
+    public boolean roleCheck(String role, String token) {
+        // TODO 根据token解析出角色
+        return false;
     }
 }
