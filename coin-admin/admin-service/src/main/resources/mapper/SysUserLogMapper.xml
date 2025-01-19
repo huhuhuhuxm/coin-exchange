@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exchange.mapper.SysUserLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.exchange.entity.SysUserLog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="group" column="group" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="type" column="type" jdbcType="SMALLINT"/>
+            <result property="method" column="method" jdbcType="VARCHAR"/>
+            <result property="params" column="params" jdbcType="VARCHAR"/>
+            <result property="time" column="time" jdbcType="BIGINT"/>
+            <result property="ip" column="ip" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,group,user_id,
+        type,method,params,
+        time,ip,description,
+        remark,created
+    </sql>
+</mapper>

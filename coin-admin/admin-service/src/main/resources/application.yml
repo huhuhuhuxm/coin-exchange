@@ -3,41 +3,94 @@ server:
 spring:
   application:
     name: admin-server
+  profiles:
+    active: dev
   config:
-    import: optional:nacos:instead
+    import:
+      - optional:nacos:admin-service-dev.yaml # 监听 DEFAULT_GROUP:test.yml
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
       config:
         server-addr: localhost:8848
-  datasource: # 数据库配置
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/coin-exchange
-    username: root
-    password: 2019dahucun
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: 2019dahucun
-
-# dubbo配置
-dubbo:
-  application:
-    name: dubbo-coin-admin # 应用名称
-    qos-enable: false
-  provider:
-    token: true
-  protocol:
-    name: tri
-    port: -1 # Dubbo 服务端口 默认端口号是 20880  -1：则是自动分配
-  registry:
-    address: nacos://127.0.0.1:8848 # Dubbo 服务注册中心地址
-    group: DUBBO_GROUP
-  config-center:
-    address: nacos://127.0.0.1:8848 # Dubbo 配置中心地址
-    group: DUBBO_GROUP
-  metadata-report:
-    address: nacos://127.0.0.1:8848 # Dubbo 元数据中心地址
-    group: DUBBO_GROUP
+    sentinel:
+      transport:
+        dashboard: localhost:1234
+#  datasource: # 数据库配置
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/coin-exchange
+#    username: root
+#    password: 2019dahucun
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+#      password: 2019dahucun
+#
+## dubbo配置
+#dubbo:
+#  application:
+#    name: dubbo-coin-admin # 应用名称
+#    qos-enable: false
+#  provider:
+#    token: true
+#  protocol:
+#    name: tri
+#    port: -1 # Dubbo 服务端口 默认端口号是 20880  -1：则是自动分配
+#  registry:
+#    address: nacos://127.0.0.1:8848 # Dubbo 服务注册中心地址
+#    group: DUBBO_GROUP
+#  config-center:
+#    address: nacos://127.0.0.1:8848 # Dubbo 配置中心地址
+#    group: DUBBO_GROUP
+#  metadata-report:
+#    address: nacos://127.0.0.1:8848 # Dubbo 元数据中心地址
+#    group: DUBBO_GROUP
+#
+#mybatis-plus:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mapper-locations: classpath:/mappers/*Mapper.xml
+#
+#jetcache:
+#  statIntervalMinutes: 15
+#  areaInCacheName: false
+#  local:
+#    default:
+#      type: linkedhashmap
+#      keyConvertor: fastjson2
+#  remote:
+#    default:
+#      type: redis
+#      keyConvertor: fastjson2
+#      valueEncoder: kryo5
+#      valueDecoder: kryo5
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: ${spring.redis.host}
+#      port: ${spring.redis.port}
+#      password: ${spring.redis.password}
+#jetcache:
+#  statIntervalMinutes: 15
+#  areaInCacheName: false
+#  local:
+#    default:
+#      type: linkedhashmap
+#      keyConvertor: fastjson2
+#  remote:
+#    default:
+#      type: redis
+#      keyConvertor: fastjson2
+#      broadcastChannel: projectA
+#      valueEncoder: kryo5
+#      valueDecoder: kryo5
+#      poolConfig:
+#        minIdle: 5
+#        maxIdle: 20
+#        maxTotal: 50
+#      host: 127.0.0.1
+#      port: 6379
+#      password: 2019dahucun

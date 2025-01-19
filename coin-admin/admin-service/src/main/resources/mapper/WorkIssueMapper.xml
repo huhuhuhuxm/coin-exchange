@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exchange.mapper.WorkIssueMapper">
+
+    <resultMap id="BaseResultMap" type="com.exchange.entity.WorkIssue">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="answerUserId" column="answer_user_id" jdbcType="BIGINT"/>
+            <result property="answerName" column="answer_name" jdbcType="VARCHAR"/>
+            <result property="question" column="question" jdbcType="VARCHAR"/>
+            <result property="answer" column="answer" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="lastUpdateTime" column="last_update_time" jdbcType="TIMESTAMP"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,answer_user_id,
+        answer_name,question,answer,
+        status,last_update_time,created
+    </sql>
+</mapper>

@@ -1,9 +1,11 @@
 package com.exchange;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import com.alicp.jetcache.anno.config.EnableCreateCacheAnnotation;
+import com.alicp.jetcache.anno.config.EnableMethodCache;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @author huxuanming
@@ -12,8 +14,9 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
  */
 @SpringBootApplication // exclude = {SecurityAutoConfiguration.class} 不需要springSecurity的web安全功能
 //@EnableDubbo // 启用dubbo注解
-public class AdminApplication {
+@MapperScan(basePackages = "com.exchange.mapper")
+public class AdminServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AdminApplication.class, args);
+        SpringApplication.run(AdminServerApplication.class, args);
     }
 }

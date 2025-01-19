@@ -1,5 +1,6 @@
 package com.exchange.aspect;
 
+import com.alibaba.fastjson2.JSON;
 import com.exchange.model.WebLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -68,6 +69,7 @@ public class WebLogAspect {
         webLog.setMethod(className + "." + method.getName());
         webLog.setParameter(getMethodParameter(method, proceedingJoinPoint.getArgs()));
         webLog.setResult(result);
+        log.info(JSON.toJSONString(webLog));
         return result;
     }
 
