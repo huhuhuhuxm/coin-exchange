@@ -44,7 +44,7 @@ public class AuthorizationController {
             authTokenVO = userService.getAccessToken(userLoginDTO);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("authentication：{}", authentication);
+        log.error("authentication：{}", authentication);
         // TODO 后续换成通用结果类
         return authTokenVO;
     }

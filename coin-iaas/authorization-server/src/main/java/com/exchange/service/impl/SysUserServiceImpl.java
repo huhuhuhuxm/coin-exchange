@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -58,7 +59,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser user = (SysUser) authenticate.getPrincipal();
         log.info("登陆后的用户=》》》{}", user);
-
+        // 将登录成功的用户存入SecurityContext中
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
         // 封装claims
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
