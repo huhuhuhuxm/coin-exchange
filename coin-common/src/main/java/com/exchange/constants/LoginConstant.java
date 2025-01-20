@@ -1,4 +1,4 @@
-package com.exchange.constant;
+package com.exchange.constants;
 
 /**
  * 登录常量类

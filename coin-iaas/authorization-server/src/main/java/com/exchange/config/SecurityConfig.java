@@ -47,7 +47,7 @@ public class SecurityConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/auth/login")// 允许登录接口直接放问
+                .requestMatchers("/auth/**")// 允许登录接口直接放问
                 .permitAll()
                 .anyRequest() // 其余请求需要认证
                 .authenticated())

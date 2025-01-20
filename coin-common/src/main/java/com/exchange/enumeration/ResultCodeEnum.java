@@ -1,11 +1,14 @@
 package com.exchange.enumeration;
 
+import lombok.Getter;
+
 /**
  * 统一返回结果状态信息类
  * @author huxuanming
  * @version 1.0
  * @date 2025/1/18 21:57
  */
+@Getter
 public enum ResultCodeEnum {
     SUCCESS(200,"成功"),
     FAIL(201, "失败"),

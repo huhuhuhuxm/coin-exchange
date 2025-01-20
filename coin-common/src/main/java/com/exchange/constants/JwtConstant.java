@@ -1,4 +1,4 @@
-package com.exchange.constant;
+package com.exchange.constants;
 
 /**
  * JWT常量类
@@ -13,6 +13,7 @@ public class JwtConstant {
     public static final String JWT_ROLE = "roles";
     //jwt权限常量
     public static final String JWT_PERMISSION = "permissions";
-
+    // jwt用户id
+    public static final String JWT_USER_ID = "userId";
 
 }

@@ -27,6 +27,12 @@ import java.util.UUID;
 @Configuration
 public class JwtConfig {
 
+    private final KeyPair keyPair;
+
+    public JwtConfig() {
+        this.keyPair = generateRsaKey();  // 使用相同的密钥对
+    }
+
     /**
      * Token生成
      * @return
@@ -34,7 +40,7 @@ public class JwtConfig {
     @Bean
     public JwtEncoder jwtEncoder() {
         // 生成 RSA 密钥对
-        KeyPair keyPair = generateRsaKey();
+//        KeyPair keyPair = generateRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
@@ -57,7 +63,7 @@ public class JwtConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         // 生成 RSA 密钥对
-        KeyPair keyPair = generateRsaKey();
+//        KeyPair keyPair = generateRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 
         // 配置 RSA 公钥到 JWKSource

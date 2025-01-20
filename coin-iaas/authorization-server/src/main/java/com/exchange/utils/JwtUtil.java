@@ -1,6 +1,6 @@
 package com.exchange.utils;
 
-import com.exchange.constant.JwtConstant;
+import com.exchange.constants.JwtConstant;
 import com.exchange.properties.JwtProperties;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,7 +49,7 @@ public class JwtUtil {
 
         // 生成 Access Token
         JwtClaimsSet accessTokenClaims = JwtClaimsSet.builder()
-                .issuer("coin-exchange") // Token 签发方
+                .issuer("https://coin-exchange") // Token 签发方 TODO 如果不写错URL形式会报错 Unable to convert claim 'iss' of type 'class java.lang.String' to URL.
                 .issuedAt(now) // 签发时间
                 .expiresAt(now.plus(jwtProperties.getAccessTokenValiditySeconds(), ChronoUnit.SECONDS)) // 过期时间
                 .subject(username) // 主题（用户标识）
@@ -81,7 +82,9 @@ public class JwtUtil {
      */
     public Jwt decodeToken(String token) {
         try {
-            return jwtDecoder.decode(token);
+            Jwt decode = jwtDecoder.decode(token);
+            System.out.println(decode);
+            return decode;
         } catch (JwtException e) {
             throw new IllegalArgumentException("token解析失败！！！", e);
         }
@@ -92,7 +95,7 @@ public class JwtUtil {
      * @param token
      * @return
      */
-    public boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         try {
             Jwt jwt = decodeToken(token);
             Instant expiresAt = jwt.getExpiresAt();
@@ -119,7 +122,7 @@ public class JwtUtil {
      * @param token JWT Token
      * @return 角色列表
      */
-    public Object getRolesFromToken(String token) {
+    public List<String> getRolesFromToken(String token) {
         Jwt jwt = decodeToken(token);
         return jwt.getClaim(JwtConstant.JWT_ROLE);
     }
@@ -130,9 +133,19 @@ public class JwtUtil {
      * @param token JWT Token
      * @return 权限列表
      */
-    public Object getPermissionsFromToken(String token) {
+    public List<String> getPermissionsFromToken(String token) {
         Jwt jwt = decodeToken(token);
         return jwt.getClaim(JwtConstant.JWT_PERMISSION);
+    }
+
+    /**
+     * 从Token中获取用户id
+     * @param token
+     * @return 用户id
+     */
+    public Long getUserIdFromToken(String token) {
+        Jwt jwt = decodeToken(token);
+        return jwt.getClaim(JwtConstant.JWT_USER_ID);
     }
 
 }

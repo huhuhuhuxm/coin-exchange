@@ -5,30 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.exchange</groupId>
-        <artifactId>coin-exchange</artifactId>
+        <artifactId>coin-iaas</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>coin-iaas</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>gateway-server</module>
-        <module>authorization-server</module>
-        <module>authorization-api</module>
-    </modules>
+    <artifactId>authorization-api</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.exchange</groupId>
-            <artifactId>coin-common</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
 
 </project>

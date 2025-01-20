@@ -42,5 +42,4 @@ public class SecurityConfig {
         return expressionHandler;
     }
 
-
 }

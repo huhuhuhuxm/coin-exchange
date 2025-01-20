@@ -1,7 +1,7 @@
 package com.exchange.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.exchange.constant.JwtConstant;
+import com.exchange.constants.JwtConstant;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.entity.SysUser;
 import com.exchange.mapper.SysUserMapper;
@@ -63,7 +63,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         // 封装claims
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", user.getId());
+        claims.put(JwtConstant.JWT_USER_ID, user.getId());
         claims.put(JwtConstant.JWt_USERNAME, user.getUsername());
         claims.put(JwtConstant.JWT_ROLE, user.getRoleSet().stream().map(role -> role.getName()).toList());
         claims.put(JwtConstant.JWT_PERMISSION, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());

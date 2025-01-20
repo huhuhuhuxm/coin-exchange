@@ -1,7 +1,7 @@
 package com.exchange.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.exchange.constant.LoginConstant;
+import com.exchange.constants.LoginConstant;
 import com.exchange.entity.SysPrivilege;
 import com.exchange.entity.SysUser;
 import com.exchange.entity.User;
