@@ -26,7 +26,7 @@ public interface AuthorizationServiceFeign {
      * @return
      */
     @PostMapping("/auth/login")
-    ResponseEntity<AuthTokenVO> login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType);
+    ResponseEntity<Object> login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType);
 
     /**
      * 从Token中获取权限列表

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.exchange.constants.JwtConstant;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.entity.SysUser;
+import com.exchange.enumeration.ResultCodeEnum;
+import com.exchange.exception.BusinessException;
 import com.exchange.mapper.SysUserMapper;
 import com.exchange.service.SysUserService;
 import com.exchange.utils.JwtUtil;
@@ -54,8 +56,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         try {
             authenticate = authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            log.error("用户名或密码错误：{}", e.fillInStackTrace());
-            throw new AuthenticationServiceException("用户名或密码错误", e);
+            throw new BusinessException(ResultCodeEnum.PASSWORD_ERROR.getCode(), ResultCodeEnum.PASSWORD_ERROR.getMessage());
         }
         SysUser user = (SysUser) authenticate.getPrincipal();
         log.info("登陆后的用户=》》》{}", user);

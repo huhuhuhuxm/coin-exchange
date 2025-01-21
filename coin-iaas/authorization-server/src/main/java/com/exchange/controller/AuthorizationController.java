@@ -42,20 +42,13 @@ public class AuthorizationController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthTokenVO> login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType) {
+    public ResponseEntity<Object> login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType) {
         AuthTokenVO authTokenVO = null;
         if (LoginConstant.ADMIN_TYPE.equals(LoginType)) {
             authTokenVO =  sysUserService.getAccessToken(userLoginDTO);
         } else if (LoginConstant.MEMBER_TYPE.equals(LoginType)) {
             authTokenVO = userService.getAccessToken(userLoginDTO);
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.error("Authorities：{}", authentication.getAuthorities());
-        log.error("\u001B[31mAuthorities：{}\u001B[0m", authentication.getAuthorities());
-        log.error("Credentials：{}", authentication.getCredentials());
-        log.error("Details：{}", authentication.getDetails());
-        log.error("Principal：{}", authentication.getPrincipal());
-        // TODO 后续换成通用结果类
         return ResponseEntity.ok(authTokenVO);
     }
 
