@@ -43,6 +43,7 @@ public class SysMenu {
     /**
      * 描述
      */
+    @TableField("`desc`")
     private String desc;
 
     /**

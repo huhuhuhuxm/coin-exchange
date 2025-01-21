@@ -68,7 +68,7 @@ public class AuthorizationController {
      * @return
      */
     @GetMapping("/decodeToken")
-    public ResponseEntity<Jwt> decodeToken(String token) {
+    public ResponseEntity<Jwt> decodeToken(@RequestParam String token) {
         Jwt jwt = jwtUtil.decodeToken(token);
         return ResponseEntity.ok(jwt);
     }
@@ -78,7 +78,7 @@ public class AuthorizationController {
      * @return username
      */
     @GetMapping("/getUsernameFromToken")
-    public ResponseEntity<String> getUsernameFromToken(String token) {
+    public ResponseEntity<String> getUsernameFromToken(@RequestParam String token) {
         String username = jwtUtil.getUsernameFromToken(token);
         return ResponseEntity.ok(username);
     }
@@ -89,7 +89,7 @@ public class AuthorizationController {
      * @return 角色列表
      */
     @GetMapping("/getRolesFromToken")
-    public ResponseEntity<List<String>> getRolesFromToken(String token) {
+    public ResponseEntity<List<String>> getRolesFromToken(@RequestParam String token) {
         List<String> roles = jwtUtil.getRolesFromToken(token);
         return ResponseEntity.ok(roles);
     }
@@ -101,7 +101,7 @@ public class AuthorizationController {
      * @return
      */
     @GetMapping("/getPermissionsFromToken")
-    public ResponseEntity<List<String>> getPermissionsFromToken(String token) {
+    public ResponseEntity<List<String>> getPermissionsFromToken(@RequestParam String token) {
         List<String> permissions = jwtUtil.getPermissionsFromToken(token);
         return ResponseEntity.ok(permissions);
     }
@@ -113,7 +113,7 @@ public class AuthorizationController {
      * @return 用户id
      */
     @GetMapping("/getUserIdFromToken")
-    public ResponseEntity<Long> getUserIdFromToken(String token) {
+    public ResponseEntity<Long> getUserIdFromToken(@RequestParam String token) {
         Long userId = jwtUtil.getUserIdFromToken(token);
         return ResponseEntity.ok(userId);
     }
@@ -125,7 +125,7 @@ public class AuthorizationController {
      * @return
      */
     @GetMapping("isTokenExpired")
-    public ResponseEntity<Boolean> isTokenExpired(String token) {
+    public ResponseEntity<Boolean> isTokenExpired(@RequestParam String token) {
         Boolean tokenExpired = jwtUtil.isTokenExpired(token);
         return ResponseEntity.ok(tokenExpired);
     }

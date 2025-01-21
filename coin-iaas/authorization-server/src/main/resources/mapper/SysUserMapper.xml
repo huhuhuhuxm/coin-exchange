@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.exchange.mapper.SysUserMapper">
 
-    <resultMap id="UserResultMap" type="SysUser">
+    <resultMap id="UserResultMap" type="com.exchange.entity.SysUser">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
@@ -17,7 +17,7 @@
         <result column="last_update_time" property="lastUpdateTime"/>
 
         <collection property="roleSet" ofType="SysRole">
-            <id column="id" property="id"/>
+            <id column="role_id" property="id"/> <!--TODO 这边相同的字段隐射会有问题-->
             <result column="name" property="name"/>
             <result column="code" property="code"/>
             <result column="description" property="description"/>
@@ -44,7 +44,9 @@
 
     <!-- 根据用户名查询用户和角色 -->
     <select id="selectUserByUsername" resultMap="UserResultMap">
-        select su.*, sr.* from sys_user as su
+        select su.*, sr.id as role_id, sr.name, sr.code, sr.description,
+               sr.create_by, sr.modify_by, sr.status, sr.created, sr.last_update_time
+        from sys_user as su
             left join sys_user_role as sur
                 on su.id = sur.user_id
             left join sys_role as sr

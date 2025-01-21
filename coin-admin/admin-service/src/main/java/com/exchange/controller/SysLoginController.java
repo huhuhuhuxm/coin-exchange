@@ -1,11 +1,17 @@
 package com.exchange.controller;
 
+import com.exchange.constants.LoginConstant;
+import com.exchange.dto.UserLoginDTO;
+import com.exchange.feign.AuthorizationServiceFeign;
+import com.exchange.service.SysLoginService;
+import com.exchange.vo.AuthTokenVO;
 import com.exchange.vo.LoginResultVO;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,17 +26,17 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class SysLoginController {
+    SysLoginService sysLoginService;
 
     /**
-     * 管理员登录
+     * 登录
      * @param username
      * @param password
      * @return
      */
     @PostMapping("login")
     public LoginResultVO login(String username, String password) {
-
-        return null;
+        return sysLoginService.login(username, password);
     }
 
 }

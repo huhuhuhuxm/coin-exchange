@@ -11,6 +11,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
+    /**
+     * 根据用户的id查询角色code
+     * @param userId
+     * @return
+     */
+    String selectUserRoleCodeByUserId(Long userId);
 }
 
 

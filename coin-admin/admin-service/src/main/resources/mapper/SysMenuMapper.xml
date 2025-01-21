@@ -27,4 +27,10 @@
         create_by,modify_by,created,
         last_update_time
     </sql>
+    <select id="selectMenusByUserId" resultType="com.exchange.entity.SysMenu">
+        select sm.* from sys_menu as sm left join
+        sys_role_menu as srm on sm.id = srm.menu_id
+        left join sys_user_role as sur on sur.role_id = srm.role_id
+        where sur.user_id = #{userId}
+    </select>
 </mapper>

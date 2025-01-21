@@ -10,4 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysRoleService extends IService<SysRole> {
 
+    /**
+     * 根据userId查询出roleCode
+     * @param userId
+     * @return
+     */
+    boolean isAdmin(Long userId);
 }

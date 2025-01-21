@@ -21,4 +21,11 @@
         description,create_by,modify_by,
         status,created,last_update_time
     </sql>
+
+    <select id="selectUserRoleCodeByUserId" resultType="java.lang.String">
+        select sr.code from sys_user_role as sur
+        left join sys_role as sr
+        on sur.role_id = sr.id
+        where sur.user_id = #{userId}
+    </select>
 </mapper>

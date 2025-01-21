@@ -3,6 +3,8 @@ package com.exchange.mapper;
 import com.exchange.entity.SysMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
 * @author hxm
 * @description 针对表【sys_menu(系统菜单)】的数据库操作Mapper
@@ -11,6 +13,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
+    /**
+     * 根据userId查询出菜单列表
+     * @param userId
+     * @return
+     */
+    List<SysMenu> selectMenusByUserId(Long userId);
 }
 
 
