@@ -1,6 +1,7 @@
 package com.exchange.feign;
 
 import com.exchange.dto.UserLoginDTO;
+import com.exchange.model.R;
 import com.exchange.vo.AuthTokenVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public interface AuthorizationServiceFeign {
      * @return
      */
     @PostMapping("/auth/login")
-    ResponseEntity<Object> login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType);
+    R login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType);
 
     /**
      * 从Token中获取权限列表
@@ -34,7 +35,7 @@ public interface AuthorizationServiceFeign {
      * @return
      */
     @GetMapping("/auth/getPermissionsFromToken")
-    ResponseEntity<List<String>> getPermissionsFromToken(@RequestParam String token);
+    R getPermissionsFromToken(@RequestParam String token);
 
     /**
      * 从Token中获取用户Id
@@ -42,6 +43,6 @@ public interface AuthorizationServiceFeign {
      * @return 用户id
      */
     @GetMapping("/auth/getUserIdFromToken")
-    ResponseEntity<Long> getUserIdFromToken(@RequestParam String token);
+    R getUserIdFromToken(@RequestParam String token);
 
 }

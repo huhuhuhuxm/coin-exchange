@@ -2,6 +2,7 @@ package com.exchange.controller;
 
 import com.exchange.constants.LoginConstant;
 import com.exchange.dto.UserLoginDTO;
+import com.exchange.model.R;
 import com.exchange.service.SysUserService;
 import com.exchange.service.UserService;
 import com.exchange.utils.JwtUtil;
@@ -42,14 +43,14 @@ public class AuthorizationController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType) {
+    public R login(@RequestBody UserLoginDTO userLoginDTO, @RequestParam("login_type") String LoginType) {
         AuthTokenVO authTokenVO = null;
         if (LoginConstant.ADMIN_TYPE.equals(LoginType)) {
             authTokenVO =  sysUserService.getAccessToken(userLoginDTO);
         } else if (LoginConstant.MEMBER_TYPE.equals(LoginType)) {
             authTokenVO = userService.getAccessToken(userLoginDTO);
         }
-        return ResponseEntity.ok(authTokenVO);
+        return R.ok(authTokenVO);
     }
 
     // TODO 在重新获取token的时候把上一个请求的token存入redis黑名单
@@ -61,9 +62,9 @@ public class AuthorizationController {
      * @return
      */
     @GetMapping("/decodeToken")
-    public ResponseEntity<Jwt> decodeToken(@RequestParam String token) {
+    public R decodeToken(@RequestParam String token) {
         Jwt jwt = jwtUtil.decodeToken(token);
-        return ResponseEntity.ok(jwt);
+        return R.ok(jwt);
     }
 
     /**
@@ -71,9 +72,9 @@ public class AuthorizationController {
      * @return username
      */
     @GetMapping("/getUsernameFromToken")
-    public ResponseEntity<String> getUsernameFromToken(@RequestParam String token) {
+    public R getUsernameFromToken(@RequestParam String token) {
         String username = jwtUtil.getUsernameFromToken(token);
-        return ResponseEntity.ok(username);
+        return R.ok(username);
     }
 
     /**
@@ -82,9 +83,9 @@ public class AuthorizationController {
      * @return 角色列表
      */
     @GetMapping("/getRolesFromToken")
-    public ResponseEntity<List<String>> getRolesFromToken(@RequestParam String token) {
+    public R getRolesFromToken(@RequestParam String token) {
         List<String> roles = jwtUtil.getRolesFromToken(token);
-        return ResponseEntity.ok(roles);
+        return R.ok(roles);
     }
 
 
@@ -94,9 +95,9 @@ public class AuthorizationController {
      * @return
      */
     @GetMapping("/getPermissionsFromToken")
-    public ResponseEntity<List<String>> getPermissionsFromToken(@RequestParam String token) {
+    public R getPermissionsFromToken(@RequestParam String token) {
         List<String> permissions = jwtUtil.getPermissionsFromToken(token);
-        return ResponseEntity.ok(permissions);
+        return R.ok(permissions);
     }
 
 
@@ -106,9 +107,9 @@ public class AuthorizationController {
      * @return 用户id
      */
     @GetMapping("/getUserIdFromToken")
-    public ResponseEntity<Long> getUserIdFromToken(@RequestParam String token) {
+    public R getUserIdFromToken(@RequestParam String token) {
         Long userId = jwtUtil.getUserIdFromToken(token);
-        return ResponseEntity.ok(userId);
+        return R.ok(userId);
     }
 
 
@@ -118,9 +119,9 @@ public class AuthorizationController {
      * @return
      */
     @GetMapping("isTokenExpired")
-    public ResponseEntity<Boolean> isTokenExpired(@RequestParam String token) {
+    public R isTokenExpired(@RequestParam String token) {
         Boolean tokenExpired = jwtUtil.isTokenExpired(token);
-        return ResponseEntity.ok(tokenExpired);
+        return R.ok(tokenExpired);
     }
 
 }

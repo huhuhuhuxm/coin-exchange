@@ -30,6 +30,7 @@ public enum ResultCodeEnum {
     PASSWORD_ERROR(215, "密码不正确"),
     PHONE_CODE_ERROR(215, "手机验证码不正确"),
     LOGIN_MOBLE_ERROR( 216, "账号不正确"),
+    ACCOUNT_PASSWORD_ERROR(217, "账号或密码不正确")
     ;
 
     private Integer code;

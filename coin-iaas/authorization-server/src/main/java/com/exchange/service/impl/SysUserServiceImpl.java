@@ -56,7 +56,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         try {
             authenticate = authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw new BusinessException(ResultCodeEnum.PASSWORD_ERROR.getCode(), ResultCodeEnum.PASSWORD_ERROR.getMessage());
+            throw new BusinessException(ResultCodeEnum.ACCOUNT_PASSWORD_ERROR.getCode(), ResultCodeEnum.ACCOUNT_PASSWORD_ERROR.getMessage());
         }
         SysUser user = (SysUser) authenticate.getPrincipal();
         log.info("登陆后的用户=》》》{}", user);
