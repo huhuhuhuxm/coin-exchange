@@ -45,4 +45,12 @@ public interface AuthorizationServiceFeign {
     @GetMapping("/auth/getUserIdFromToken")
     R getUserIdFromToken(@RequestParam String token);
 
+    /**
+     * 从Token中获取角色列表
+     * @param token
+     * @return 角色列表
+     */
+    @GetMapping("/auth/getRolesFromToken")
+    R getRolesFromToken(@RequestParam String token);
+
 }

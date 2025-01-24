@@ -66,7 +66,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtConstant.JWT_USER_ID, user.getId());
         claims.put(JwtConstant.JWt_USERNAME, user.getUsername());
-        claims.put(JwtConstant.JWT_ROLE, user.getRoleSet().stream().map(role -> role.getName()).toList());
+        claims.put(JwtConstant.JWT_ROLE, user.getRoleSet().stream().map(role -> role.getCode()).toList());
         claims.put(JwtConstant.JWT_PERMISSION, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
 
         // 生成token

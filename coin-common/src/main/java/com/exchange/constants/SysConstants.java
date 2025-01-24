@@ -47,4 +47,9 @@ public class SysConstants {
      * 验证码有效期（分钟）
      */
     public static final long CAPTCHA_EXPIRATION = 2;
+
+    /**
+     * HTTP 请求头中传递token的字段
+     */
+    public static final String AUTHORIZATION = "Authorization";
 }

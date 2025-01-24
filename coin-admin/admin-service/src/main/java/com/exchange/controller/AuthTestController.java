@@ -40,7 +40,7 @@ public class AuthTestController {
         return "测试成功！！！！";
     }
 
-    @PreAuthorize("hasPermission(null, 'admin,user')")
+    @PreAuthorize("hasPermission(null, 'ROLE_ADMIN,user')")
     @GetMapping("/test1")
     public String someMethod(String target) {
         return "Some data";
