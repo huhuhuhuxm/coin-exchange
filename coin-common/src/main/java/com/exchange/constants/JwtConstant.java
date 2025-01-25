@@ -15,5 +15,6 @@ public class JwtConstant {
     public static final String JWT_PERMISSION = "permissions";
     // jwt用户id
     public static final String JWT_USER_ID = "userId";
-
+    //  Token 类型
+    public static final String TOKEN_TYPE_BEARER = "Bearer ";
 }

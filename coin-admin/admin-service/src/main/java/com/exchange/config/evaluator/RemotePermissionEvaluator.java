@@ -18,10 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.management.relation.Role;
-import javax.management.relation.RoleList;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,21 +46,18 @@ public class RemotePermissionEvaluator implements PermissionEvaluator {
         if (!ResultCodeEnum.SUCCESS.getCode().equals(rolesFromTokenResult.getCode())) {
             throw new BusinessException(rolesFromTokenResult.getCode(), rolesFromTokenResult.getMsg());
         }
-        List<String> roleList = ((List<String>) rolesFromTokenResult.getData());
+        List<String> roleList = ((List<String>) rolesFromTokenResult.getData()); // TODO 后续将这个缓存到redis中去
         // 如果该Token解析出来的角色是admin管理员 则直接放行通过
-        System.out.println(roleList);
-        System.out.println(RoleConstant.ADMIN);
-        if (roleList.contains(RoleConstant.ADMIN)) {
-            return true;
+        if (!roleList.contains(RoleConstant.ADMIN)) {
+            //把permission当做角色来用
+            String roles = permission.toString();
+            //判断该资源是否有多个角色都可以访问  有分隔符","就表示有多个角色
+            boolean isAccess= Arrays.stream(roles.split(",")).anyMatch(roleList::contains);
+            if (!isAccess) {
+                throw new BusinessException(ResultCodeEnum.PERMISSION.getCode(), ResultCodeEnum.PERMISSION.getMessage());
+            }
         }
-        //把permission当做角色来用
-        String roles = permission.toString();
-        //判断该资源是否有多个角色都可以访问  有分隔符","就表示有多个角色
-        boolean isAccess= Arrays.stream(roles.split(",")).anyMatch(roleList::contains);
-        if (!isAccess) {
-            throw new BusinessException(ResultCodeEnum.PERMISSION.getCode(), ResultCodeEnum.PERMISSION.getMessage());
-        }
-        return isAccess;
+        return true;
     }
 
     @Override

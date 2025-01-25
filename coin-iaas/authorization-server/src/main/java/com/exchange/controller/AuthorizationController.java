@@ -1,5 +1,6 @@
 package com.exchange.controller;
 
+import com.exchange.constants.JwtConstant;
 import com.exchange.constants.LoginConstant;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.model.R;
@@ -63,6 +64,9 @@ public class AuthorizationController {
      */
     @GetMapping("/decodeToken")
     public R decodeToken(@RequestParam String token) {
+        if (token.contains(JwtConstant.TOKEN_TYPE_BEARER)) {
+            token = token.replaceAll(JwtConstant.TOKEN_TYPE_BEARER, "");
+        }
         Jwt jwt = jwtUtil.decodeToken(token);
         return R.ok(jwt);
     }
@@ -73,6 +77,9 @@ public class AuthorizationController {
      */
     @GetMapping("/getUsernameFromToken")
     public R getUsernameFromToken(@RequestParam String token) {
+        if (token.contains(JwtConstant.TOKEN_TYPE_BEARER)) {
+            token = token.replaceAll(JwtConstant.TOKEN_TYPE_BEARER, "");
+        }
         String username = jwtUtil.getUsernameFromToken(token);
         return R.ok(username);
     }
@@ -84,6 +91,9 @@ public class AuthorizationController {
      */
     @GetMapping("/getRolesFromToken")
     public R getRolesFromToken(@RequestParam String token) {
+        if (token.contains(JwtConstant.TOKEN_TYPE_BEARER)) {
+            token = token.replaceAll(JwtConstant.TOKEN_TYPE_BEARER, "");
+        }
         List<String> roles = jwtUtil.getRolesFromToken(token);
         return R.ok(roles);
     }
@@ -96,6 +106,9 @@ public class AuthorizationController {
      */
     @GetMapping("/getPermissionsFromToken")
     public R getPermissionsFromToken(@RequestParam String token) {
+        if (token.contains(JwtConstant.TOKEN_TYPE_BEARER)) {
+            token = token.replaceAll(JwtConstant.TOKEN_TYPE_BEARER, "");
+        }
         List<String> permissions = jwtUtil.getPermissionsFromToken(token);
         return R.ok(permissions);
     }
@@ -108,6 +121,9 @@ public class AuthorizationController {
      */
     @GetMapping("/getUserIdFromToken")
     public R getUserIdFromToken(@RequestParam String token) {
+        if (token.contains(JwtConstant.TOKEN_TYPE_BEARER)) {
+            token = token.replaceAll(JwtConstant.TOKEN_TYPE_BEARER, "");
+        }
         Long userId = jwtUtil.getUserIdFromToken(token);
         return R.ok(userId);
     }
@@ -120,6 +136,9 @@ public class AuthorizationController {
      */
     @GetMapping("isTokenExpired")
     public R isTokenExpired(@RequestParam String token) {
+        if (token.contains(JwtConstant.TOKEN_TYPE_BEARER)) {
+            token = token.replaceAll(JwtConstant.TOKEN_TYPE_BEARER, "");
+        }
         Boolean tokenExpired = jwtUtil.isTokenExpired(token);
         return R.ok(tokenExpired);
     }

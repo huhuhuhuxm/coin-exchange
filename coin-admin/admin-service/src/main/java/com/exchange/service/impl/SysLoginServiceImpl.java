@@ -1,5 +1,6 @@
 package com.exchange.service.impl;
 
+import com.exchange.constants.JwtConstant;
 import com.exchange.constants.LoginConstant;
 import com.exchange.dto.UserLoginDTO;
 import com.exchange.entity.SysMenu;
@@ -65,7 +66,7 @@ public class SysLoginServiceImpl implements SysLoginService {
         // 封装LoginResultVO
         LoginResultVO loginResultVO = new LoginResultVO();
         String accessToken = authTokenVO.getAccessToken();
-        loginResultVO.setToken(accessToken);
+        loginResultVO.setToken(JwtConstant.TOKEN_TYPE_BEARER + accessToken);
 
         // 根据Token查询出该用户的权限列表
         R permissionsResult = authorizationServiceFeign.getPermissionsFromToken(accessToken);
