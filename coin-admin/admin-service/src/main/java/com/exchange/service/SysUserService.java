@@ -10,4 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysUserService extends IService<SysUser> {
 
+    /**
+     * 获取用户id
+     * @return
+     */
+    Long getUserId();
+
 }

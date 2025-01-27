@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -23,25 +27,28 @@ public class SysPrivilege {
     /**
      * 所属菜单Id
      */
+    @NotNull
     private Long menuId;
 
     /**
      * 功能点名称
      */
+    @NotNull
     private String name;
 
     /**
      * 功能描述
      */
+    @NotNull
     private String description;
 
     /**
-     * 
+     *
      */
     private String url;
 
     /**
-     * 
+     *
      */
     private String method;
 
@@ -58,12 +65,12 @@ public class SysPrivilege {
     /**
      * 创建时间
      */
-    private Date created;
+    private LocalDateTime created;
 
     /**
      * 修改时间
      */
-    private Date lastUpdateTime;
+    private LocalDateTime lastUpdateTime;
 
     @Override
     public boolean equals(Object that) {

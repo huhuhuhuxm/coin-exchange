@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -53,12 +55,12 @@ public class SysRole {
     /**
      * 创建时间
      */
-    private Date created;
+    private LocalDateTime created;
 
     /**
      * 修改时间
      */
-    private Date lastUpdateTime;
+    private LocalDateTime lastUpdateTime;
 
     @Override
     public boolean equals(Object that) {
