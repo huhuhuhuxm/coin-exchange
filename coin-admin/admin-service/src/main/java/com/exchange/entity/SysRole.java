@@ -1,12 +1,11 @@
 package com.exchange.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -25,11 +24,13 @@ public class SysRole {
     /**
      * 名称
      */
+    @NotNull(message = "角色不能为空")
     private String name;
 
     /**
      * 代码
      */
+    @NotNull(message = "角色代码不能为空")
     private String code;
 
     /**
@@ -50,6 +51,7 @@ public class SysRole {
     /**
      * 状态0:禁用 1:启用
      */
+    @TableLogic(value = "1", delval = "0")
     private Integer status;
 
     /**
