@@ -72,6 +72,12 @@ public class SysPrivilege {
      */
     private LocalDateTime lastUpdateTime;
 
+    /**
+     * 当前角色是否拥有这个权限 own=1则拥有该属性
+     */
+    @TableField(exist = false)
+    private int own ;
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {

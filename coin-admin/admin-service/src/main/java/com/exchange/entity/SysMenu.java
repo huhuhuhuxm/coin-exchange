@@ -6,8 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 /**
  * 系统菜单
@@ -82,6 +87,39 @@ public class SysMenu {
      * 修改时间
      */
     private LocalDateTime lastUpdateTime;
+
+
+    /**
+     * 该菜单下的所有的权限
+     */
+    @TableField(exist = false)
+    private List<SysPrivilege> privileges = Collections.emptyList();
+
+    /**
+     * 该菜单的子菜单
+     */
+    @TableField(exist = false)
+    private List<SysMenu>  childs = Collections.emptyList();
+
+
+    /**
+     * 该菜单的唯一Key值
+     */
+    @TableField(exist = false)
+    private  String menuKey ;
+
+    /**
+     * 获取菜单的唯一Key凭证
+     * @return
+     */
+    public String getMenuKey() {
+        if (StringUtils.hasText(parentKey)) {
+            return parentKey+"."+id;
+        }else {
+            return id.toString();
+        }
+    }
+
 
     @Override
     public boolean equals(Object that) {

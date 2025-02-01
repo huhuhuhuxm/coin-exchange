@@ -1,7 +1,10 @@
 package com.exchange.service;
 
+import com.exchange.entity.SysMenu;
 import com.exchange.entity.SysRolePrivilege;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author hxm
@@ -10,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SysRolePrivilegeService extends IService<SysRolePrivilege> {
 
+    /**
+     * 根据角色id查询菜单和权限
+     * @param roleId
+     * @return
+     */
+    List<SysMenu> findSysMenuAndPrivileges(Long roleId);
 }
