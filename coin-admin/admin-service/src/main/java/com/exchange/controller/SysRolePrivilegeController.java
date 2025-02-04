@@ -1,5 +1,6 @@
 package com.exchange.controller;
 
+import com.exchange.dto.RolePrivilegesParamDTO;
 import com.exchange.entity.SysMenu;
 import com.exchange.model.R;
 import com.exchange.service.SysRolePrivilegeService;
@@ -8,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +36,20 @@ public class SysRolePrivilegeController {
     public R<List<SysMenu>> findSysMenuAndPrivileges(Long roleId) {
         List<SysMenu> sysMenus = sysRolePrivilegeService.findSysMenuAndPrivileges(roleId);
         return R.ok(sysMenus);
+    }
+
+    /**
+     * 授予角色权限
+     * @param rolePrivilegesParamDTO
+     * @return
+     */
+    @PostMapping("/grant_privileges")
+    public R grantPrivileges(@RequestBody RolePrivilegesParamDTO rolePrivilegesParamDTO) {
+        boolean isOk = sysRolePrivilegeService.grantPrivileges(rolePrivilegesParamDTO);
+        if (isOk) {
+            return R.ok("权限授权失败");
+        }
+        return R.fail("权限授权成功");
     }
 
 }

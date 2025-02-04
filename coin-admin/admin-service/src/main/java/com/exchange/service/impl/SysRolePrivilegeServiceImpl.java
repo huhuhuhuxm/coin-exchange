@@ -2,6 +2,7 @@ package com.exchange.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.exchange.dto.RolePrivilegesParamDTO;
 import com.exchange.entity.SysMenu;
 import com.exchange.entity.SysPrivilege;
 import com.exchange.entity.SysRolePrivilege;
@@ -13,8 +14,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.executor.BatchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -54,11 +57,11 @@ public class SysRolePrivilegeServiceImpl extends ServiceImpl<SysRolePrivilegeMap
             return Collections.emptyList();
         }
         //过滤出一级菜单
-        List<SysMenu> rootMenus = sysMenuList.stream().filter(sysMenu -> sysMenu.getParentId() == null).toList();
-        log.info("rootMenus：{}", rootMenus);
-        if (CollectionUtils.isEmpty(rootMenus)) {
-            return Collections.emptyList();
-        }
+//        List<SysMenu> rootMenus = sysMenuList.stream().filter(sysMenu -> sysMenu.getParentId() == null).toList();
+//        log.info("rootMenus：{}", rootMenus);
+//        if (CollectionUtils.isEmpty(rootMenus)) {
+//            return Collections.emptyList();
+//        }
 
         // 过滤出二级菜单列表
         List<SysMenu> secondaryMenus = sysMenuList.stream()
@@ -90,17 +93,51 @@ public class SysRolePrivilegeServiceImpl extends ServiceImpl<SysRolePrivilegeMap
 
         // ---------------------------------------------
 
-        // 查询所有二级菜单
+//        Map<Long, List<SysPrivilege>> privilegeMap = sysPrivilegeService.getAllPrivilege(sysPrivilegeIds).stream().collect(Collectors.groupingBy(SysPrivilege::getMenuId));
+//
+//
+//        // 查询所有二级菜单
 //        List<SysMenu> subMenus = new ArrayList<>();
 //        for (SysMenu rootMenu : rootMenus) {
-//            subMenus.addAll(this.getChildMenus(rootMenu.getId(), roleId, sysMenuList, sysPrivileges));
+//            subMenus.addAll(this.getChildMenus(rootMenu.getId(), roleId, sysMenuList, privilegeMap));
 //        }
 //
+//        log.info("subMenus：{}", subMenus);
+//
+//        return subMenus;
 
         // ---------------------------------------------
 
         return secondaryMenus;
 
+    }
+
+
+    /**
+     * 授予角色权限
+     * @param rolePrivilegesParamDTO
+     * @return
+     */
+    @Transactional
+    @Override
+    public boolean grantPrivileges(RolePrivilegesParamDTO rolePrivilegesParamDTO) {
+        Long roleId = rolePrivilegesParamDTO.getRoleId();
+        List<Long> privilegeIds = rolePrivilegesParamDTO.getPrivilegeIds();
+        // 首先清除该角色已有的权限
+        this.remove(new LambdaQueryWrapper<SysRolePrivilege>().eq(SysRolePrivilege::getRoleId, roleId));
+        // 角色和权限写入表中
+        List<SysRolePrivilege> sysRolePrivilegeList = new ArrayList<>();
+        if (!privilegeIds.isEmpty()) {
+            for (Long privilegeId : privilegeIds) {
+                SysRolePrivilege sysRolePrivilege = new SysRolePrivilege();
+                sysRolePrivilege.setRoleId(roleId);
+                sysRolePrivilege.setPrivilegeId(privilegeId);
+                sysRolePrivilegeList.add(sysRolePrivilege);
+            }
+            boolean isSave = this.saveBatch(sysRolePrivilegeList);
+            return isSave;
+        }
+        return false;
     }
 
     /**
@@ -109,16 +146,16 @@ public class SysRolePrivilegeServiceImpl extends ServiceImpl<SysRolePrivilegeMap
      * @param roleId 角色Id
      * @return
      */
-//    private List<SysMenu> getChildMenus(Long parentId, Long roleId, List<SysMenu> sysMenuList, List<SysPrivilege> sysPrivileges) {
+//    private List<SysMenu> getChildMenus(Long parentId, Long roleId, List<SysMenu> sysMenuList, Map<Long, List<SysPrivilege>> privilegeMap) {
 //        List<SysMenu> childList = new ArrayList<>();
 //        for (SysMenu sysMenu : sysMenuList) {
-//            if (sysMenu.getParentId().equals(parentId)) {
+//            if (parentId.equals(sysMenu.getParentId())) {
+//                sysMenu.setChilds(this.getChildMenus(sysMenu.getId(), roleId, sysMenuList, privilegeMap));
+//                sysMenu.setPrivileges(privilegeMap.get(sysMenu.getId()));
 //                childList.add(sysMenu);
-//                sysMenu.setChilds(this.getChildMenus(sysMenu.getId(), roleId, sysMenuList, sysPrivileges));
-//                sysMenu.setPrivileges();
 //            }
 //        }
-//        return null;
+//        return childList;
 //    }
 }
 

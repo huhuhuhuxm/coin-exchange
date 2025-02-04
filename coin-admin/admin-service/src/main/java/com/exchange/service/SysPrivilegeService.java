@@ -14,7 +14,7 @@ public interface SysPrivilegeService extends IService<SysPrivilege> {
 
     /**
      * 查询出所有权限并且标记角色拥有对应权限
-     * @param sysPrivilegeIds
+     * @param
      * @return
      */
     List<SysPrivilege> getAllPrivilege(List<Long> sysPrivilegeIds);

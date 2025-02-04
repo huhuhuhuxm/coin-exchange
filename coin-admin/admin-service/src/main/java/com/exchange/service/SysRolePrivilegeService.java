@@ -1,5 +1,6 @@
 package com.exchange.service;
 
+import com.exchange.dto.RolePrivilegesParamDTO;
 import com.exchange.entity.SysMenu;
 import com.exchange.entity.SysRolePrivilege;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -19,4 +20,11 @@ public interface SysRolePrivilegeService extends IService<SysRolePrivilege> {
      * @return
      */
     List<SysMenu> findSysMenuAndPrivileges(Long roleId);
+
+    /**
+     * 授予角色权限
+     * @param rolePrivilegesParamDTO
+     * @return
+     */
+    boolean grantPrivileges(RolePrivilegesParamDTO rolePrivilegesParamDTO);
 }
