@@ -67,7 +67,9 @@ public class SysRoleController {
     @PostMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<String> addRole(@RequestBody SysRole sysRole) {
-        sysRole.setCreateBy(sysUserService.getUserId());
+        Long userId = sysUserService.getUserId();
+        sysRole.setCreateBy(userId);
+        sysRole.setModifyBy(userId);
         boolean isSave = sysRoleService.save(sysRole);
         if (isSave) {
             return R.ok("新增成功！！！");
@@ -84,6 +86,7 @@ public class SysRoleController {
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<String> deleteRolesByIds(@RequestBody @NotNull(message = "数组不能为null")
                                           @NotEmpty(message = "数组不能为空且长度必须大于0") String[] ids) {
+        // TODO 后续修改 比如该角色绑定了用户择不能 删除 角色如果删除必须删除相关表中的数据 避免脏数据
         boolean isDelete = sysRoleService.removeByIds(Arrays.stream(ids).toList());
         if (isDelete) {
             return R.ok("删除成功！！！");
