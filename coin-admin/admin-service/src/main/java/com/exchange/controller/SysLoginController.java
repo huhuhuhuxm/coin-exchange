@@ -6,6 +6,7 @@ import com.exchange.feign.AuthorizationServiceFeign;
 import com.exchange.service.SysLoginService;
 import com.exchange.vo.AuthTokenVO;
 import com.exchange.vo.LoginResultVO;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -34,6 +35,7 @@ public class SysLoginController {
      * @param password
      * @return
      */
+    @Operation(description = "登录")
     @PostMapping("login")
     public LoginResultVO login(String username, String password) {
         return sysLoginService.login(username, password);

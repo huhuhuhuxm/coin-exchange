@@ -9,6 +9,7 @@ import com.exchange.entity.SysUserRole;
 import com.exchange.model.R;
 import com.exchange.service.SysUserRoleService;
 import com.exchange.service.SysUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -45,6 +46,7 @@ public class SysUserController {
      * @param size 每页条数
      * @return
      */
+    @Operation(description = "查询员工分页")
     @GetMapping
     public R<Page<UserDTO>> findByPage(@RequestParam Long current, @RequestParam Long size, @RequestParam(value = "fullname", required = false) String name, @RequestParam(required = false) String mobile) {
         Page<SysUser> page = new Page<>();
@@ -87,6 +89,7 @@ public class SysUserController {
      * @param userDTO
      * @return
      */
+    @Operation(description = "添加员工")
     @PostMapping
     public R<String> addUser(@RequestBody UserDTO userDTO) {
         boolean isAdd = sysUserService.addUser(userDTO);
@@ -102,6 +105,7 @@ public class SysUserController {
      * @param userDTO
      * @return
      */
+    @Operation(description = "编辑员工")
     @PatchMapping
     public R<String> updateUser(@RequestBody UserDTO userDTO) {
         boolean isUpdate = sysUserService.updateUser(userDTO);
@@ -116,6 +120,7 @@ public class SysUserController {
      * @param userIds
      * @return
      */
+    @Operation(description = "批量删除员工")
     @PostMapping("/delete")
     public R<String> deleteUsers(@RequestBody List<Long> userIds) {
         boolean isDelete = sysUserService.deleteUsers(userIds);

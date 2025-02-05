@@ -1,14 +1,16 @@
 package com.exchange.aspect;
 
-import com.alibaba.fastjson2.JSON;
+import com.exchange.entity.SysUserLog;
 import com.exchange.model.WebLog;
+import com.exchange.service.SysUserLogService;
+import com.exchange.utils.SnowflakeUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -17,7 +19,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -27,10 +28,21 @@ import java.util.Map;
 
 
 @Aspect
-//@Component
+@Component
 @Order(1)
 @Slf4j
 public class WebLogAspect {
+
+    @Resource
+    private SysUserLogService sysUserLogService;
+
+    /**
+     * 雪花算法
+     * 1 : 机器的id
+     * 2 : 应用的id
+     */
+    private SnowflakeUtil snowflake = new SnowflakeUtil(1,1) ;
+
 
     @Around("execution(* com.exchange.controller.*.*(..))")
     public Object recodeWebLog(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
@@ -69,7 +81,16 @@ public class WebLogAspect {
         webLog.setMethod(className + "." + method.getName());
         webLog.setParameter(getMethodParameter(method, proceedingJoinPoint.getArgs()));
         webLog.setResult(result);
-        log.info(JSON.toJSONString(webLog));
+//        log.info(JSON.toJSONString(webLog));
+        SysUserLog sysUserLog = new SysUserLog();
+        sysUserLog.setId(snowflake.nextId());
+        sysUserLog.setDescription(webLog.getDescription());
+        sysUserLog.setGroup(webLog.getDescription());
+        sysUserLog.setUserId(null); // TODO 后续写拦截器 添加用户信息
+        sysUserLog.setMethod(webLog.getMethod());
+        sysUserLog.setIp(webLog.getIp());
+        sysUserLog.setTime(webLog.getSpendTime().longValue());
+        sysUserLogService.save(sysUserLog);
         return result;
     }
 

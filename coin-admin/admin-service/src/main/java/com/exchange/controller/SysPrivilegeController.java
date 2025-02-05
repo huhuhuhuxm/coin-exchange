@@ -8,6 +8,7 @@ import com.exchange.entity.SysPrivilege;
 import com.exchange.model.R;
 import com.exchange.service.SysPrivilegeService;
 import com.exchange.service.SysUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -41,6 +42,7 @@ public class SysPrivilegeController {
      * @param size
      * @return
      */
+    @Operation(description = "查询权限配置列表")
     @GetMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<Page<SysPrivilege>> findByPage(@RequestParam Long current, @RequestParam Long size) {
@@ -58,6 +60,7 @@ public class SysPrivilegeController {
      * @param sysPrivilege
      * @return
      */
+    @Operation(description = "新增系统权限")
     @PostMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R addPrivilege(@RequestBody @Validated SysPrivilege sysPrivilege) {
@@ -75,6 +78,7 @@ public class SysPrivilegeController {
      * 修改系统权限
      * @return
      */
+    @Operation(description = "修改系统权限")
     @PatchMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<String> updatePrivilege(@RequestBody @Validated SysPrivilege sysPrivilege) {

@@ -25,6 +25,7 @@ public class SysUserLog {
     /**
      * 组
      */
+    @TableField(value = "`group`")
     private String group;
 
     /**

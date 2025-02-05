@@ -4,6 +4,7 @@ import com.exchange.dto.RolePrivilegesParamDTO;
 import com.exchange.entity.SysMenu;
 import com.exchange.model.R;
 import com.exchange.service.SysRolePrivilegeService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,6 +33,7 @@ public class SysRolePrivilegeController {
      * 查询角色的权限列表
      * @return
      */
+    @Operation(description = "查询角色的权限列表")
     @GetMapping("/roles_privileges")
     public R<List<SysMenu>> findSysMenuAndPrivileges(Long roleId) {
         List<SysMenu> sysMenus = sysRolePrivilegeService.findSysMenuAndPrivileges(roleId);
@@ -43,6 +45,7 @@ public class SysRolePrivilegeController {
      * @param rolePrivilegesParamDTO
      * @return
      */
+    @Operation(description = "授予角色权限")
     @PostMapping("/grant_privileges")
     public R grantPrivileges(@RequestBody RolePrivilegesParamDTO rolePrivilegesParamDTO) {
         boolean isOk = sysRolePrivilegeService.grantPrivileges(rolePrivilegesParamDTO);

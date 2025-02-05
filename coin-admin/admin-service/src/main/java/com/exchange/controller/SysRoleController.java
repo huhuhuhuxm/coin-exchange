@@ -7,6 +7,7 @@ import com.exchange.entity.SysRole;
 import com.exchange.model.R;
 import com.exchange.service.SysRoleService;
 import com.exchange.service.SysUserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -45,6 +46,7 @@ public class SysRoleController {
      * @param name
      * @return
      */
+    @Operation(description = "角色分页查询")
     @GetMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<Page<SysRole>> findByPage(@RequestParam Long current, @RequestParam Long size, @RequestParam(required = false) String name) {
@@ -64,6 +66,7 @@ public class SysRoleController {
      * 新增角色
      * @return
      */
+    @Operation(description = "新增角色")
     @PostMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<String> addRole(@RequestBody SysRole sysRole) {
@@ -82,6 +85,7 @@ public class SysRoleController {
      * @param ids
      * @return
      */
+    @Operation(description = "根据相关id删除角色")
     @PostMapping("/delete")
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<String> deleteRolesByIds(@RequestBody @NotNull(message = "数组不能为null")
@@ -96,10 +100,11 @@ public class SysRoleController {
 
 
     /**
-     * 更具id获取角色信息
+     * 根据id获取角色信息
      * @param roleId
      * @return
      */
+    @Operation(description = "根据id获取角色信息")
     @GetMapping("/{roleId}")
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
     public R<SysRole> getRoleInfoById(@PathVariable Long roleId) {
