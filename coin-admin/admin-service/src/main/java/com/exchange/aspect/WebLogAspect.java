@@ -4,6 +4,7 @@ import com.exchange.entity.SysUserLog;
 import com.exchange.model.WebLog;
 import com.exchange.service.SysUserLogService;
 import com.exchange.utils.SnowflakeUtil;
+import com.exchange.utils.UserContextUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -86,7 +87,7 @@ public class WebLogAspect {
         sysUserLog.setId(snowflake.nextId());
         sysUserLog.setDescription(webLog.getDescription());
         sysUserLog.setGroup(webLog.getDescription());
-        sysUserLog.setUserId(null); // TODO 后续写拦截器 添加用户信息
+        sysUserLog.setUserId(UserContextUtil.getUserId()); // TODO 后续写拦截器 添加用户信息
         sysUserLog.setMethod(webLog.getMethod());
         sysUserLog.setIp(webLog.getIp());
         sysUserLog.setTime(webLog.getSpendTime().longValue());
