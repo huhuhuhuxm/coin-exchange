@@ -95,6 +95,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public R exceptionHandler(Exception e) {
+        if (e.getMessage() == null) {
+            log.error("异常信息：{}", e.getCause().getMessage());
+            return R.fail(e.getCause().getMessage());
+        }
         log.error("异常信息：{}", e.getMessage());
         return R.fail(e.getMessage());
     }
