@@ -6,8 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -63,13 +67,29 @@ public class SysPrivilege {
     private Long modifyBy;
 
     /**
-     * 创建时间
+     * 创建时间 ⚠️这是解决该 报错Java 8 date/time type java.time.LocalDateTime not supported by
+     * default: add Module "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+     * to enable handling (through reference chain: java.util.HashMap["page"]->
+     * com.baomidou.mybatisplus.extension.plugins.pagination.Page["records"]->
+     * java.util.ArrayList[0]->com.exchange.entity.SysPrivilege["lastUpdateTime"])
+     *
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime created;
 
     /**
-     * 修改时间
+     * 修改时间 ⚠️这是解决该 报错Java 8 date/time type java.time.LocalDateTime not supported by
+     * default: add Module "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+     * to enable handling (through reference chain: java.util.HashMap["page"]->
+     * com.baomidou.mybatisplus.extension.plugins.pagination.Page["records"]->
+     * java.util.ArrayList[0]->com.exchange.entity.SysPrivilege["lastUpdateTime"])
+     *
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime lastUpdateTime;
 
     /**

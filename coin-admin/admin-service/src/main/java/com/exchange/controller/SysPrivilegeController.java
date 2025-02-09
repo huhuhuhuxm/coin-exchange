@@ -38,18 +38,16 @@ public class SysPrivilegeController {
 
     /**
      * 查询权限配置列表
-     * @param current
-     * @param size
+     * @param page @RequestParam Long current, @RequestParam Long size   Page<SysPrivilege> page
      * @return
      */
     @Operation(description = "查询权限配置列表")
     @GetMapping
     @PreAuthorize("hasPermission(null, 'ROLE_ADMIN')")
-    public R<Page<SysPrivilege>> findByPage(@RequestParam Long current, @RequestParam Long size) {
-        Page<SysPrivilege> page = new Page<>();
-        page.setCurrent(current);
-        page.setSize(size);
-        // 查询是时候最近新增的优先显示
+    public R<Page<SysPrivilege>> findByPage(Page<SysPrivilege> page) {
+//        Page<SysPrivilege> page = new Page<>();
+//        page.setCurrent(current);
+//        page.setSize(size);
         page.addOrder(OrderItem.desc("last_update_time"));
         Page<SysPrivilege> sysPrivilegePage = sysPrivilegeService.page(page);
         return R.ok(sysPrivilegePage);

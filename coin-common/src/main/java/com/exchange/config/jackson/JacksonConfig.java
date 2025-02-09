@@ -11,11 +11,11 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 
 /**
  * @author huxuanming
@@ -31,17 +31,6 @@ public class JacksonConfig {
      */
     @Bean
     public ObjectMapper objectMapper() {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.registerModule(new JavaTimeModule());
-//        SimpleModule simpleModule = new SimpleModule();
-//        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-//        objectMapper.registerModule(simpleModule);
-//        objectMapper.setTimeZone(TimeZone.getTimeZone("Asia/shanghai"));
-//        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-//        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//
-//        return objectMapper;
-
         ObjectMapper objectMapper = new ObjectMapper();
 
         // 配置 DateTimeFormatter 格式化 LocalDateTime
@@ -61,13 +50,54 @@ public class JacksonConfig {
         simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
         simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         objectMapper.registerModule(simpleModule);
-
         // 设置 JSON 可见性
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-
-        // 设置时区，仅对旧版 Date 类型生效（与 LocalDateTime 无关）
-        objectMapper.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-
         return objectMapper;
     }
+
+//    @Bean
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
+//        return new MappingJackson2HttpMessageConverter(objectMapper);
+//    }
+
+//    @Bean
+//    @Primary
+//    public ObjectMapper objectMapper() {
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        // 注册 JavaTimeModule 模块
+//        JavaTimeModule module = new JavaTimeModule();
+//
+//        // 自定义 LocalDateTime 的序列化和反序列化格式
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
+//        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
+//
+//        mapper.registerModule(module);
+//
+//        // 禁用日期时间的默认序列化方式
+//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//
+//        return mapper;
+//    }
+
+//    @Bean
+//    public Jackson2ObjectMapperBuilderCustomizer customizer() {
+//        return builder ->
+//                builder.simpleDateFormat("yyyy-MM-dd HH:mm:ss")
+//                        // long类型转string， 前端处理Long类型，数值过大会丢失精度
+//                        .serializerByType(Long.class, ToStringSerializer.instance)
+//                        .serializerByType(Long.TYPE, ToStringSerializer.instance)
+//                        .serializationInclusion(JsonInclude.Include.NON_NULL)
+//                        //指定反序列化类型，也可以使用@JsonFormat(pattern = "yyyy-MM-dd")替代。主要是mvc接收日期时使用
+//                        .deserializerByType(LocalTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("HH:mm:ss")))
+//                        .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+//                        .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+//                        // 日期序列化，主要返回数据时使用
+//                        .serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss")))
+//                        .serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+//                        .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+//    }
+
+
 }

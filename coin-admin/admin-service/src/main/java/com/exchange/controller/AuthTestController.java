@@ -5,9 +5,11 @@ import com.exchange.mapper.ConfigMapper;
 import com.exchange.mapper.SysUserMapper;
 import com.exchange.model.R;
 import com.exchange.service.SysUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,22 @@ public class AuthTestController {
     public R getUser() {
         SysUser sysUser = sysUserService.getById(1010101010101010101L);
         return R.ok(sysUser);
+    }
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @GetMapping("/mapper")
+    public String testMapper() {
+        return "Jackson Modules: " + objectMapper.getRegisteredModuleIds();
+    }
+
+    @Autowired
+    List<HttpMessageConverter<?>> converters;
+
+    @GetMapping("/converters")
+    public String testConverters() {
+        return "Converters: " + converters;
     }
 
 }
